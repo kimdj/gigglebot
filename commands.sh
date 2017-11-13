@@ -491,6 +491,7 @@ elif has "$msg" "!listlabs" ; then
             say $nick "$line"
         done < $filename
         say $nick "----This file is located in /u/dkim/labs"
+        say $nick "----For more info, visit: https://chronicle.cat.pdx.edu/projects/deskcat-manual/wiki/Printer_and_Lab_Checks#The-lab-check-routine"
     fi
 
 # *nix machine list.
@@ -527,6 +528,7 @@ elif has "$msg" "!listprinters" ; then
             say $nick "$line"
         done < $filename
         say $nick "----This file is located in /u/dkim/printers"
+        say $nick "----For more info, visit: https://chronicle.cat.pdx.edu/projects/deskcat-manual/wiki/Printer_and_Lab_Checks#The-lab-check-routine"
     fi
 
 fi
