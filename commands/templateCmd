@@ -1,0 +1,4 @@
+PRIVMSG #wongking x 
+send "JOIN #bots $KEY
+send "JOIN #robots $KEY
+send "JOIN #zombies $KEY
