@@ -16,6 +16,8 @@ function say { echo "PRIVMSG $1 :$2" ; }
 
 if [ "$chan" = "$BOT_NICK" ] ; then chan="$nick" ; fi
 
+###############################################  Subroutines Begin  ###############################################
+
 function send {
     while read -r line; do
       newdate=`date +%s%N`
@@ -29,14 +31,13 @@ function send {
     done <<< "$1"
 }
 
-###############################################  Subroutines Begin  ###############################################
-
 function outputSubroutine {
     filename=$1
+    say $dest "$nick says:"             # show the sender's nick
     while read -r line
     do
         sleep .2
-        say $chan "$line"
+        say $dest "$line"
     done < $filename
 }
 
@@ -57,11 +58,11 @@ function countdownSubroutine {
 
 function reverbSubroutine {
     # t1=$(($(date +%s%N)/1000000))    # DEBUG: running time
-    sentence=$(echo $words | sed 's/\s+/\+/')
+    sentence=$(echo $message | sed 's/\s+/\+/')
     if [ $# -ne 0 ] ; then                                                  # case: function argument(s) exist
         d="$1"                                                              # allow user to choose font
-        pathComponent=$(echo $sentence | sed -r 's/^\w*\ *//' |             # catch the first word  
-                                         sed -r 's/\+/%2B/'   |             # replace special characters with URL-encoded characters
+        # pathComponent=$(echo $sentence | sed -r 's/^\w*\ *//' |           # catch the first word
+        pathComponent=$(echo $sentence | sed -r 's/\+/%2B/'   |             # replace special characters with URL-encoded characters
                                          sed -r 's/!/%21/'    |
                                          sed -r 's/\?/%3F/'   |
                                          sed -r 's/@/%40/'    |
@@ -188,7 +189,7 @@ function whoisSubroutine {
 }
 
 function fontlistSubroutine {
-    say $chan "Try ⤑ !reverb avatar test message      Fontlist ⤑ avatar[5] banner[6] bell[6] big[6] block[5] bubble[4] chunky[4] contessa[3] cyberlarge[3] cybermedium[3] cybersmall[2] cygnet[3] digital[3] doom[6] drpepper[4] eftirobot[5] eftiwall[4] eftiwater[3] epic[8] fuzzy[5] invita[5] isometric1[11] isometric2[11] isometric3[11] isometric4[11] larry3d[7] lcd[5] lean[5] ..."
+    say $chan "Try ⤑ !reverb FONT CHAN test message      Fontlist ⤑ avatar[5] banner[6] bell[6] big[6] block[5] bubble[4] chunky[4] contessa[3] cyberlarge[3] cybermedium[3] cybersmall[2] cygnet[3] digital[3] doom[6] drpepper[4] eftirobot[5] eftiwall[4] eftiwater[3] epic[8] fuzzy[5] invita[5] isometric1[11] isometric2[11] isometric3[11] isometric4[11] larry3d[7] lcd[5] lean[5] ..."
     say $chan "... marquee[7] mirror[5] ogre[5] pepper[2] puffy[6] rectangles[4] rev[11] roman[7] rounded[6] script[7] serifcap[4] shadow[4] short[2] slant[5] slscript[5] small[4] smisome1[7] smkeyboard[4] smscript[4] smshadow[3] smslant[4] speed[5] stampatello[5] standard[5] starwars[6] stellar[7] stop[6] straight[4] swan[5] thin[4] threepoint[2] usaflag[5] weird[5]"
 }
 
@@ -247,26 +248,22 @@ function titleSubroutine {
 }
 
 function aboutSubroutine {
-    say $chan "╔═════════════════════════════════════════╗"
-    say $chan "║                                         ║"
-    say $chan "║    ~~ I live in /u/dkim/gigglebot ~~    ║"
-    say $chan "║       github.com/kimdj/gigglebot        ║"
-    say $chan "║                                         ║"
-    say $chan "╚═════════════════════════════════════════╝"
+    say $chan "╔═════════════════════════════════════╗"
+    say $chan "║  ~~ I live in /u/dkim/gigglebot ~~  ║"
+    say $chan "║     github.com/kimdj/gigglebot      ║"
+    say $chan "╚═════════════════════════════════════╝"
 }
 
 function helpSubroutine {
-    say $chan "╔════════════════════════════════════════════════════════╗"
-    say $chan "║        Usage  ~>  gigglebot: !alive? -OR- !hare        ║"
-    say $chan "║                                                        ║"
-    say $chan "║   !giggle • !countdown 3 • !read • !write a message    ║"
-    say $chan "║   !about • !reverb giggle b0t • !fontlist • !marco     ║"
-    say $chan "║       !remind me about a reminder dest@email.com       ║"
-    say $chan "║         !whois _sharp • !title _sharp is a DOG         ║"
-    say $chan "║          !listprinters • !listnix • !listlabs          ║"
-    say $chan "║                                                        ║"
-    say $chan "║  Full Font List  ~>  web.cecs.pdx.edu/~dkim/fontlist   ║"
-    say $chan "╚════════════════════════════════════════════════════════╝"
+    say $chan "╔══════════════════════════════════════════════════════════════╗"
+    say $chan "║         Usage  ~>  !alive • !hare • !gigglebot • !gb         ║"
+    say $chan "║  !giggle • !countdown 3 • !read • !write a message • !about  ║"
+    say $chan "║   !reverb [font]? [chan | user] this is a msg • !fontlist    ║"
+    say $chan "║          !remind me about a reminder dest@email.com          ║"
+    say $chan "║       !whois _sharp • !title _sharp is a DOG • !marco        ║"
+    say $chan "║             !listprinters • !listnix • !listlabs             ║"
+    say $chan "║      Full Font List  ~>  web.cecs.pdx.edu/~dkim/fontlist     ║"
+    say $chan "╚══════════════════════════════════════════════════════════════╝"
 }
 
 ################################################  Subroutines End  ################################################
@@ -340,21 +337,29 @@ elif has "$msg" "gb: !reverb" ; then
     reverbSubroutine2
 
 elif has "$msg" "!reverb" ; then
-    words=$(echo $msg | sed -r 's/^.{8}//')
-    str=$words
-    found=0
-    while read font; do                                 # Validate requested font.
-        substr=$font
-        if [ "${str/$substr}" != "$str" ] ; then        # Font is in fontlist.
-            found=1
-            reverbSubroutine $font
+    if [[ "$msg" =~ ^!reverb ]] ; then                                              # make sure the incoming msg begins properly
+        words=$(echo $msg | sed -r 's/^.{8}//')                                     # cut out the '!reverb'
+        found=0
+        while read font; do                                                         # Validate requested font.
+            firstWord=$(echo $words | sed -e 's|\([[:space:]].*\)||')               # get the first word (font)
+            if [ $firstWord == $font ] ; then                                       # case: first word is in fontlist.
+                found=1
+                dest=$(echo $words | sed -e 's|[a-zA-Z]*[[:space:]]\([#a-zA-Z]*\)[[:space:]].*|\1|')                # get the destination
+                message=$(echo $words | sed -e 's|\([a-zA-Z0-9]*[[:space:]][#_a-zA-Z0-9]*[[:space:]]\)||')          # get the message
+
+                reverbSubroutine $font
+                reverbSubroutine2
+                break
+            fi
+        done < ascii_art/fontlist
+        if [ $found -eq 0 ] ; then
+            firstWord=$(echo $words | sed -e 's|\([[:space:]].*\)||')               # get the first word (destination)
+            dest=$firstWord                                                         # set the destination
+            message=$(echo $words | sed -e 's|\([#_a-zA-Z0-9]*[[:space:]]\)||')     # get the message
+
+            reverbSubroutine
             reverbSubroutine2
-            break
         fi
-    done < ascii_art/fontlist
-    if [ $found -eq 0 ] ; then
-        reverbSubroutine
-        reverbSubroutine2
     fi
 
 # Countdown.

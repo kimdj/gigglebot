@@ -24,7 +24,6 @@ function send {
       fi
       prevdate=$newdate+$interval
       echo "-> $1"
-      echo "DEBUG: line -> $line"
       echo "$line" >> ${BOT_NICK}.io
     done <<< "$1"
 }
@@ -39,8 +38,7 @@ tail -f ${BOT_NICK}.io | openssl s_client -connect irc.cat.pdx.edu:6697 | while 
         started="yes"
     fi
 
-    # if a cmd file exists, run the cmd
-    if [ -e commands/cmd ] ; then
+    if [ -e commands/cmd ] ; then               # if a cmd file exists, run the cmd
         while read line ; do
             send "$line"
         done < commands/cmd
