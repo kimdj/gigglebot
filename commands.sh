@@ -41,6 +41,15 @@ function outputSubroutine {
     done < $filename
 }
 
+function outputSubroutine2 {
+    filename=$1
+    while read -r line
+    do
+        sleep .2
+        say $chan "$line"
+    done < $filename
+}
+
 function countdownSubroutine {
     TIME=$(($1+1))
     CUR=$TIME
@@ -256,12 +265,12 @@ function aboutSubroutine {
 
 function helpSubroutine {
     say $chan "╔══════════════════════════════════════════════════════════════╗"
-    say $chan "║         Usage  ~>  !alive • !hare • !gigglebot • !gb         ║"
-    say $chan "║  !giggle • !countdown 3 • !read • !write a message • !about  ║"
-    say $chan "║   !reverb [font]? [chan | user] this is a msg • !fontlist    ║"
+    say $chan "║         Usage  ~>  !alive   !hare   !gigglebot   !gb         ║"
+    say $chan "║  !giggle   !countdown 3   !read   !write a message   !about  ║"
+    say $chan "║   !reverb [font]? [chan | user] this is a msg   !fontlist    ║"
     say $chan "║          !remind me about a reminder dest@email.com          ║"
-    say $chan "║       !whois _sharp • !title _sharp is a DOG • !marco        ║"
-    say $chan "║             !listprinters • !listnix • !listlabs             ║"
+    say $chan "║       !whois _sharp   !title _sharp is a DOG   !marco        ║"
+    say $chan "║             !listprinters   !listnix   !listlabs             ║"
     say $chan "║      Full Font List  ~>  web.cecs.pdx.edu/~dkim/fontlist     ║"
     say $chan "╚══════════════════════════════════════════════════════════════╝"
 }
@@ -286,13 +295,13 @@ elif has "$msg" "gigglebot: help" ; then
 
 elif has "$msg" "gigglebot: !giggle" || has "$msg" "gb: !giggle" || has "$msg" "!giggle" ; then
     filename="ascii_art/giggle"
-    outputSubroutine $filename    
+    outputSubroutine2 $filename    
 
 # Hare.
 
 elif has "$msg" "gigglebot: !hare" || has "$msg" "gb: !hare" || has "$msg" "!hare" ; then
     filename="ascii_art/hare"
-    outputSubroutine $filename
+    outputSubroutine2 $filename
 
 # Marco-Polo.
 
@@ -397,7 +406,7 @@ elif has "$msg" "!write" ; then
 elif has "$msg" "gigglebot: !read" || has "$msg" "gb: !read" || has "$msg" "!read" ; then
     if [[ "$msg" =~ ^!read ]] ; then
         filename="read"
-        outputSubroutine $filename
+        outputSubroutine2 $filename
     fi
 
 # Send a reminder in an e-mail.
