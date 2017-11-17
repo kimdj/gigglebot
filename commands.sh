@@ -185,8 +185,7 @@ function whoisSubroutine {
             batch=$(sed -n 2p $file | grep -Po '(?<=(batch: )).*')                              # Yet-To-Be-Named (YTBN)
             say $chan "$handle belongs to the $batch, $year"
 
-            found=$(($found + 1))    # Set found flag to 1.
-        done
+            found=$(($found + 1))    # Set found flag to 1. ; done
 
         # If a match was not found..
         if [ $found -lt 1 ] ; then
@@ -244,8 +243,7 @@ function titleSubroutine {
                 $(sed -i "${titleLineNumber}s/.*/title: /" $file)                               # clear title
             fi
 
-            found=$(($found + 1))    # Set found flag to 1.
-        done
+            found=$(($found + 1))    # Set found flag to 1. ; done
 
         # If a match was not found..
         if [ $found -lt 1 ] ; then
@@ -359,8 +357,7 @@ elif has "$msg" "!reverb" ; then
                 reverbSubroutine $font
                 reverbSubroutine2
                 break
-            fi
-        done < ascii_art/fontlist
+            fi ; done < ascii_art/fontlist
         if [ $found -eq 0 ] ; then
             firstWord=$(echo $words | sed -e 's|\([[:space:]].*\)||')               # get the first word (destination)
             dest=$firstWord                                                         # set the destination
@@ -499,11 +496,9 @@ elif has "$msg" "!sendcmd" ; then
 elif has "$msg" "!listlabs" ; then
     if [[ "$msg" =~ ^!listlabs ]] ; then
         filename=labs
-        while read -r line
-        do
+        while read -r line ; do
             sleep .2
-            say $nick "$line"
-        done < $filename
+            say $nick "$line" ; done < $filename
         say $nick "----This file is located in /u/dkim/labs"
         say $nick "----For more info, visit: https://chronicle.cat.pdx.edu/projects/deskcat-manual/wiki/Printer_and_Lab_Checks#The-lab-check-routine"
     fi
@@ -514,11 +509,9 @@ elif has "$msg" "!listlabs" ; then
 elif has "$msg" "!listnix" ; then
     if [[ "$msg" =~ ^!listnix ]] ; then
         filename=nixlist.column
-        while read -r line
-        do
+        while read -r line ; do
             sleep .2
-            say $nick "$line"
-        done < $filename
+            say $nick "$line" ; done < $filename
         say $nick "----This file is located in /u/dkim/nixlist.column"
         say $nick "----Full list is located in /u/dkim/nixlist.sorted"
     fi
@@ -536,13 +529,18 @@ elif has "$msg" "!listnix" ; then
 elif has "$msg" "!listprinters" ; then
     if [[ "$msg" =~ ^!listprinters ]] ; then
         filename=printers
-        while read -r line
-        do
+        while read -r line ; do
             sleep .2
-            say $nick "$line"
-        done < $filename
+            say $nick "$line" ; done < $filename
         say $nick "----This file is located in /u/dkim/printers"
         say $nick "----For more info, visit: https://chronicle.cat.pdx.edu/projects/deskcat-manual/wiki/Printer_and_Lab_Checks#The-lab-check-routine"
+    fi
+
+# List of floorplans.
+elif has "$msg" "!floorplans" ; then
+    if [[ "$msg" =~ ^!floorplans ]] ; then
+        say $chan "FAB floorplans: https://www.pdx.edu/floorplans/sites/www.pdx.edu.floorplans/files/floorplans/floorplans/FAB-All%20Plan.pdf"
+        say $chan "EB floorplans: https://www.pdx.edu/floorplans/sites/www.pdx.edu.floorplans/files/floorplans/floorplans/EB-All%20Plans.pdf"
     fi
 
 fi
