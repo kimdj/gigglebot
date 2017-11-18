@@ -186,6 +186,7 @@ function whoisSubroutine {
             say $chan "$handle belongs to the $batch, $year"
 
             found=$(($found + 1))    # Set found flag to 1. ; done
+        done
 
         # If a match was not found..
         if [ $found -lt 1 ] ; then
@@ -244,6 +245,7 @@ function titleSubroutine {
             fi
 
             found=$(($found + 1))    # Set found flag to 1. ; done
+        done
 
         # If a match was not found..
         if [ $found -lt 1 ] ; then
