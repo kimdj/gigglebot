@@ -268,7 +268,7 @@ function helpSubroutine {
     say $chan "║         Usage  ~>  !alive   !hare   !gigglebot   !gb         ║"
     say $chan "║  !giggle   !countdown 3   !read   !write a message   !about  ║"
     say $chan "║   !reverb [font]? [chan | user] this is a msg   !fontlist    ║"
-    say $chan "║          !remind me about a reminder dest@email.com          ║"
+    # say $chan "║          !remind me about a reminder dest@email.com          ║"
     say $chan "║       !whois _sharp   !title _sharp is a DOG   !marco        ║"
     say $chan "║             !listprinters   !listnix   !listlabs             ║"
     say $chan "║      Full Font List  ~>  web.cecs.pdx.edu/~dkim/fontlist     ║"
@@ -408,21 +408,21 @@ elif has "$msg" "gigglebot: !read" || has "$msg" "gb: !read" || has "$msg" "!rea
         outputSubroutine2 $filename
     fi
 
-# Send a reminder in an e-mail.
-#      Source: dkim@cat.pdx.edu
-# Destination: Specified E-mail Address
+# # Send a reminder in an e-mail.
+# #      Source: dkim@cat.pdx.edu
+# # Destination: Specified E-mail Address
 
-elif has "$msg" "gigglebot: !remind me" ; then
-    buffer=$(echo $msg | sed -r 's/^.{12}//') 
-    emailSubroutine
+# elif has "$msg" "gigglebot: !remind me" ; then
+#     buffer=$(echo $msg | sed -r 's/^.{12}//') 
+#     emailSubroutine
 
-elif has "$msg" "gb: !remind me" ; then
-    buffer=$(echo $msg | sed -r 's/^.{5}//') 
-    emailSubroutine
+# elif has "$msg" "gb: !remind me" ; then
+#     buffer=$(echo $msg | sed -r 's/^.{5}//') 
+#     emailSubroutine
 
-elif has "$msg" "!remind me" ; then
-    buffer=$(echo $msg | sed -r 's/^.{1}//') 
-    emailSubroutine
+# elif has "$msg" "!remind me" ; then
+#     buffer=$(echo $msg | sed -r 's/^.{1}//') 
+#     emailSubroutine
 
 # Whois.
 
